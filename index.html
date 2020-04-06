@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="en" class="no-js">
+
+
+<head>
+    <script>
+
+        if (localStorage.getItem('logedIn') == true) {
+            window.location.href = '/dashboard.html';
+        }
+
+    </script>
+    <meta charset="UTF-8" />
+
+    <title>Event</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login and Registration Form with HTML5 and CSS3" />
+    <meta name="keywords" content="html5, css3, form, switch, animation, :target, pseudo-class" />
+    <meta name="author" content="Codrops" />
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/animate-custom.css" />
+</head>
+
+<body>
+    <div class="container">
+
+        <header>
+            <h1>Welcome To The Event App</h1>
+        </header>
+        <section>
+
+            <div id="container_demo">
+
+                <a class="hiddenanchor" id="toregister"></a>
+                <a class="hiddenanchor" id="tologin"></a>
+                <div id="wrapper">
+
+                    <div id="login" class="animate form">
+                        <form id="sign" nam="sign" onsubmit="signIn(event)" autocomplete="on">
+                            <h1>Log in</h1>
+                            <p>
+                                <label for="username" class="uname" data-icon="u"> Your email or username </label>
+                                <input id="username" name="username" required="required" type="text"
+                                    placeholder="myusername or mymail@mail.com" />
+                            </p>
+                            <p>
+                                <label for="password" class="youpasswd" data-icon="p"> Your password </label>
+                                <input id="password" name="password" required="required" type="password"
+                                    placeholder="eg. X8df!90EO" />
+                            </p>
+                            <div id="message1"
+                                style="display:none;padding:8px;background-color: green;color: white;font-weight:800">
+                                <span> SignIn Succesfully </span>
+                            </div>
+                            <div id="message1error"
+                                style="display:none;padding:8px;background-color: red;color: white;font-weight:800">
+                                <span> Your Email/password Is Wrong </span>
+                            </div>
+                            <p class="login button">
+                                <input type="submit" value="Login" />
+                            </p>
+                            <p class="change_link">
+                                <a href="#toregister" class="to_register">Join us</a>
+                            </p>
+                        </form>
+                    </div>
+
+                    <div id="register" class="animate form">
+                        <form id="signup" action="#" autocomplete="on" onsubmit="signup(event)">
+                            <h1> Sign up </h1>
+                            <p>
+                                <label for="usernamesignup" class="uname" data-icon="u">Your username</label>
+                                <input id="usernamesignup" name="usernamesignup" required="required" type="text"
+                                    placeholder="mysuperusername690" />
+                            </p>
+                            <p>
+                                <label for="emailsignup" class="youmail" data-icon="e"> Your email</label>
+                                <input id="emailsignup" name="emailsignup" required="required" type="email"
+                                    placeholder="mysupermail@mail.com" />
+                            </p>
+                            <p>
+                                <label for="passwordsignup" class="youpasswd" data-icon="p">Your password </label>
+                                <input id="passwordsignup" name="passwordsignup" required="required" type="password"
+                                    placeholder="eg. X8df!90EO" />
+                            </p>
+                            <div id="message"
+                                style="display:none;padding:8px;background-color: green;color: white;font-weight:800">
+                                <span> Succesfully Registered </span>
+                            </div>
+                            <p class="signin button">
+                                <input type="submit" value="Sign up" />
+                            </p>
+                            <p class="change_link">
+
+                                <a id="aLogin" href="#tologin" class="to_register"> Go and log in </a>
+                            </p>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+<script>
+    function signup(e) {
+        e.preventDefault();
+        var usernamesignup = document.getElementById('usernamesignup').value;
+        var emailsignup = document.getElementById('emailsignup').value;
+        var passwordsignup = document.getElementById('passwordsignup').value;
+        if ((usernamesignup !== '') && (emailsignup !== '') && (passwordsignup !== '')) {
+            var user = {
+                name: usernamesignup,
+                pwd: passwordsignup,
+                email: emailsignup,
+            }
+            localStorage.setItem("user", JSON.stringify(user));
+            var x = document.getElementById("message");
+            var a = document.getElementById("aLogin");
+            x.style.display = "block";
+            setTimeout(function () {
+                x.style.display = "none";
+                a.click();
+            }, 2000);
+
+        }
+    }
+    function signIn(event) {
+        event.preventDefault();
+
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        if ((username !== '') && (password !== '')) {
+            var user = JSON.parse(localStorage.getItem("user"));
+            console.log(user);
+            if (((user.name == username) || (user.email == username)) && (user.pwd == password)) {
+                var x = document.getElementById("message1");
+                x.style.display = "block";
+                setTimeout(function () {
+                    x.style.display = "none";
+                    var eventList = [{
+                        eventName: 'famiLy Get Together',
+                        Description: "this is Family Event Function Please join Us",
+                        date: '22 April 2020',
+                    },
+                    {
+                        eventName: 'Technology Event',
+                        Description: "this is Family Event Function Please join Us",
+                        date: '23 April 2020',
+                    }
+                    ];
+                    localStorage.setItem('eventList', JSON.stringify(eventList));
+                    localStorage.setItem('logedIn', true);
+                    window.location.href = '/dashboard.html';
+                }, 2000);
+            }
+            else {
+                var x = document.getElementById("message1error");
+                var sign = document.getElementById("sign");
+                x.style.display = "block";
+                setTimeout(function () {
+                    x.style.display = "none";
+                    sign.reset();
+                }, 2000);
+            }
+        }
+    }
+</script>
+
+</html>
